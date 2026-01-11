@@ -14,6 +14,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   features: [],
   shapeLimits: DEFAULT_SHAPE_LIMITS,
   errorMessage: null,
+  searchQuery: '',
+  filteredFeatures: [],
 
   setDrawingMode: (mode) => {
     set({ drawingMode: mode, errorMessage: null });
@@ -32,18 +34,24 @@ export const useAppStore = create<AppState>((set, get) => ({
       return false;
     }
 
+    const newFeatures = [...state.features, feature];
     set({ 
-      features: [...state.features, feature],
+      features: newFeatures,
+      filteredFeatures: state.getFilteredFeatures(),
       errorMessage: null 
     });
     return true;
   },
 
   removeFeature: (id) => {
-    set((state) => ({
-      features: state.features.filter(f => f.id !== id),
-      errorMessage: null
-    }));
+    set((state) => {
+      const newFeatures = state.features.filter(f => f.id !== id);
+      return {
+        features: newFeatures,
+        filteredFeatures: state.getFilteredFeatures(),
+        errorMessage: null
+      };
+    });
   },
 
   clearError: () => {
@@ -57,5 +65,31 @@ export const useAppStore = create<AppState>((set, get) => ({
   getFeatureCount: (type) => {
     const state = get();
     return state.features.filter(f => f.type === type).length;
+  },
+
+  setSearchQuery: (query) => {
+    set((state) => ({
+      searchQuery: query,
+      filteredFeatures: state.getFilteredFeatures()
+    }));
+  },
+
+  getFilteredFeatures: () => {
+    const state = get();
+    const query = state.searchQuery.toLowerCase().trim();
+    
+    if (!query) {
+      return state.features;
+    }
+
+    return state.features.filter(feature => {
+      const name = feature.properties.name.toLowerCase();
+      const type = feature.type.toLowerCase();
+      const createdAt = new Date(feature.properties.createdAt).toLocaleDateString().toLowerCase();
+      
+      return name.includes(query) || 
+             type.includes(query) || 
+             createdAt.includes(query);
+    });
   }
 }));

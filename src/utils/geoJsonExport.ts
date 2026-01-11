@@ -10,7 +10,7 @@ export const featureToGeoJSON = (feature: DrawnFeature): GeoJSON.Feature => {
   let geometry: GeoJSON.Geometry;
 
   switch (type) {
-    case 'polygon':
+    case 'polygon': {
       const polygonCoords = latLngsToGeoJSON(coordinates);
       // Ensure polygon is closed
       if (polygonCoords.length > 0 && 
@@ -23,8 +23,9 @@ export const featureToGeoJSON = (feature: DrawnFeature): GeoJSON.Feature => {
         coordinates: [polygonCoords]
       };
       break;
+    }
 
-    case 'rectangle':
+    case 'rectangle': {
       const rectCoords = latLngsToGeoJSON(coordinates);
       // Ensure rectangle is closed
       if (rectCoords.length === 4) {
@@ -35,6 +36,7 @@ export const featureToGeoJSON = (feature: DrawnFeature): GeoJSON.Feature => {
         coordinates: [rectCoords]
       };
       break;
+    }
 
     case 'circle':
       if (!center || radius === undefined) {

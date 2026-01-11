@@ -26,10 +26,14 @@ export interface AppState {
   features: DrawnFeature[];
   shapeLimits: ShapeLimits;
   errorMessage: string | null;
+  searchQuery: string;
+  filteredFeatures: DrawnFeature[];
   setDrawingMode: (mode: DrawingMode) => void;
   addFeature: (feature: DrawnFeature) => boolean;
   removeFeature: (id: string) => void;
   clearError: () => void;
   setError: (message: string) => void;
   getFeatureCount: (type: string) => number;
+  setSearchQuery: (query: string) => void;
+  getFilteredFeatures: () => DrawnFeature[];
 }

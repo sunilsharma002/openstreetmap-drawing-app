@@ -1,4 +1,3 @@
-// @ts-ignore - Turf.js types issue with package.json exports
 import * as turf from '@turf/turf';
 import { LatLng } from 'leaflet';
 import { DrawnFeature } from '../types';
@@ -39,8 +38,8 @@ export const createTurfPolygon = (coordinates: LatLng[]): GeoJSONFeature => {
  */
 export const createTurfCircle = (center: LatLng, radiusInMeters: number): GeoJSONFeature => {
   const centerPoint = turf.point(latLngToGeoJSON(center));
-  // @ts-ignore - circle function signature issue with options
-  return turf.circle(centerPoint, radiusInMeters / 1000, { units: 'kilometers' });
+  const radiusInKm = radiusInMeters / 1000;
+  return (turf as any).circle(centerPoint, radiusInKm, { units: 'kilometers' }) as GeoJSONFeature;
 };
 
 /**
@@ -71,8 +70,7 @@ export const checkPolygonOverlap = (feature1: GeoJSONFeature, feature2: GeoJSONF
  */
 export const checkPolygonContainment = (outer: GeoJSONFeature, inner: GeoJSONFeature): boolean => {
   try {
-    // @ts-ignore - booleanContains exists but types are not properly exported
-    return turf.booleanContains(outer, inner);
+    return (turf as any).booleanContains(outer, inner);
   } catch (error) {
     console.warn('Error checking polygon containment:', error);
     return false;

@@ -34,7 +34,7 @@ const FeatureRenderer: React.FC = () => {
         );
 
         switch (feature.type) {
-          case 'polygon':
+          case 'polygon': {
             // Ensure polygon is closed for rendering
             const polygonCoords = [...feature.coordinates];
             if (polygonCoords.length > 2 && 
@@ -56,8 +56,9 @@ const FeatureRenderer: React.FC = () => {
                 <Popup>{popupContent}</Popup>
               </Polygon>
             );
+          }
 
-          case 'rectangle':
+          case 'rectangle': {
             // Rectangle should have exactly 4 points, close it for rendering
             const rectCoords = [...feature.coordinates];
             if (rectCoords.length === 4) {
@@ -78,6 +79,7 @@ const FeatureRenderer: React.FC = () => {
                 <Popup>{popupContent}</Popup>
               </Polygon>
             );
+          }
 
           case 'circle':
             if (!feature.center || feature.radius === undefined) {
