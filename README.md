@@ -109,5 +109,5 @@ const DEFAULT_SHAPE_LIMITS = {
 📧 Email: sunil703354@gmail.com  
 📱 Phone: +91 7033541232  
 🔗 GitHub: https://github.com/sunilsharma002  
-🔗 LinkedIn: https://linkedin.com/in/sunilsharma  
+🔗 LinkedIn: https://www.linkedin.com/in/sunilsharma002/ 
 🇮🇳 India
